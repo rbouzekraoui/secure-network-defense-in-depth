@@ -101,6 +101,11 @@ sudo netplan apply
 # Commits the configuration permanently
 ```
 
+> [!NOTE]
+> Configuration files in `configs/netplan/` are manually reconstructed from the validated
+> configurations applied on each VM. Direct SCP export was not possible due to the `chmod 600`
+> permissions enforced on Netplan files as part of the Phase 01 security hardening procedure.
+
 ---
 
 ## Netplan Configurations
