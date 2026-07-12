@@ -1,0 +1,14 @@
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    ens33:
+      dhcp4: true
+    ens34:
+      addresses: [172.16.40.254/24]
+    ens35:
+      addresses: [192.168.10.254/24]
+    ens36:
+      addresses: [192.168.20.254/24]
+    ens37:
+      addresses: [192.168.30.254/24]
