@@ -117,6 +117,14 @@ VMs had no outbound connectivity. Installing diagnostic tools (`ping`, `tracerou
 controlled stage — after the NAT gateway is configured and under administrative control —
 is consistent with the defense-in-depth approach.
 
+**Example on ELK**
+
+![ELK updated](../evidence/phase-02/Phase2_Apt_ELK.png)
+
+**Example on HAProxy**
+
+![HAProxy updated](../evidence/phase-02/Phase2_Apt_HAProxy.png)
+
 ---
 
 ## Routing Table Audit
@@ -129,6 +137,7 @@ ip route show
 ```
 
 Confirmed routing table:
+![Router routing table](../evidence/phase-02/Phase2_Routes_Routeur.png)
 
 ```
 default via 172.16.176.2 dev ens33 proto dhcp src 172.16.176.131 metric 100
@@ -194,6 +203,7 @@ ping -c 4 192.168.20.10   # → Internal Servers (MySQL) — 4/4 received, 0% lo
 ping -c 4 192.168.30.10   # → Supervision (ELK)     — 4/4 received, 0% loss
 ping -c 4 8.8.8.8         # → Internet via NAT       — 4/4 received, 0% loss
 ```
+![Inter-zone connectivity tests](../evidence/phase-02/Phase2_Ping_InterZones.png)
 
 All four destination classes are confirmed reachable from the Client zone with no packet
 loss.
@@ -210,6 +220,7 @@ traceroute to 172.16.40.10 (172.16.40.10), 30 hops max, 60 byte packets
  1  _gateway (192.168.10.254)   2.794 ms   2.179 ms   1.717 ms
  2  172.16.40.10 (172.16.40.10)  5.920 ms   5.552 ms   5.428 ms
 ```
+![Traceroute validation](../evidence/phase-02/Phase2_Traceroute.png)
 
 The traceroute output formally proves that every packet from the Client zone to the DMZ
 passes through `192.168.10.254` — the router's Clients-zone interface — as the mandatory

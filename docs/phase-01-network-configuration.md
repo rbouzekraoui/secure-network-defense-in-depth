@@ -169,7 +169,6 @@ network:
       nameservers:
         addresses: [8.8.8.8, 1.1.1.1]
 ```
-
 ---
 
 ## IP Forwarding
@@ -195,6 +194,7 @@ Verification:
 cat /proc/sys/net/ipv4/ip_forward
 # Expected output: 1
 ```
+![IP forwarding enabled](../evidence/phase-01/Phase1_IP_Forwarding.png)
 
 Enabling IP forwarding at this stage is a prerequisite for Phase 02 (inter-zone routing)
 but has no observable effect yet: without iptables rules or a NAT rule, internal VMs have
@@ -241,15 +241,20 @@ sysctl configuration described above.
 Validation at this stage focuses on intra-zone reachability — each VM reaching its gateway
 — and router-level visibility across all zones.
 
+```markdown
 **Per-VM address verification**
 ```bash
 ip -br addr show
 # Executed on all 7 VMs to confirm correct IP/prefix assignment on the correct interface
 ```
-
+![Router interfaces](../evidence/phase-01/Phase1_IP_Routeur.png)
+![Client IP configuration](../evidence/phase-01/Phase1_IP_Client.png)
+```markdown
 **Intra-zone ping (from router)**
 In the absence of diagnostic tools on internal VMs, ping tests are executed from the router,
 which has direct interface-level access to all zones:
+
+![Router ICMP validation](../evidence/phase-01/Phase1_Tests_ICMP.png)
 
 ```
 ping -c 4 172.16.40.10    # HAProxy (DMZ)       → 0% packet loss
@@ -265,6 +270,7 @@ ping -c 4 192.168.30.10   # ELK (Supervision)   → 0% packet loss
 ping -c 4 google.com
 # Validates both outbound routing and DNS resolution via the WAN interface
 ```
+![Router Internet connectivity](../evidence/phase-01/Phase1_Ping_DNS.png)
 
 **IP forwarding confirmed**
 ```bash
