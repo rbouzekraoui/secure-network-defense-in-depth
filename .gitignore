@@ -1,0 +1,16 @@
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Secrets and Keys 
+*.pem
+*.ppk
+*.key
+.env
+aws_credentials*
+credentials.csv
+
+# Terraform / IaC
+*.tfstate
+*.tfstate.backup
+.terraform/
