@@ -1,0 +1,18 @@
+# Cluster
+cluster.name: siem-monosite
+node.name: elk-node-1
+
+# Storage path
+path.data: /var/lib/elasticsearch
+path.logs: /var/log/elasticsearch
+
+# Network
+network.host: 192.168.30.10
+http.port: 9200
+discovery.type: single-node
+
+# Security disabled
+xpack.security.enabled: false
+xpack.security.enrollment.enabled: false
+xpack.security.http.ssl.enabled: false
+xpack.security.transport.ssl.enabled: false
