@@ -26,6 +26,8 @@ apt-get install -y elasticsearch logstash kibana
 cat > /etc/elasticsearch/elasticsearch.yml << EOF
 cluster.name: siem-monosite
 node.name: elk-node-1
+path.data: /var/lib/elasticsearch
+path.logs: /var/log/elasticsearch
 network.host: ${ELK_IP}
 http.port: 9200
 discovery.type: single-node
