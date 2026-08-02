@@ -1,0 +1,23 @@
+# jail.local — Fail2ban local configuration
+
+[DEFAULT]
+# Internal administration networks exempt from banning.
+# Temporarily remove the attacking subnet when running offensive tests (T-06).
+ignoreip = 127.0.0.1/8 ::1 192.168.10.0/24 172.16.40.0/24 192.168.20.0/24 192.168.30.0/24
+
+bantime  = 600
+findtime = 600
+maxretry = 3
+banaction = iptables-multiport
+
+[sshd]
+enabled  = true
+port     = 22
+filter   = sshd
+logpath  = /var/log/auth.log
+maxretry = 3
+findtime = 600
+bantime  = 600
+# aggressive mode: also matches invalid-user and failed-publickey events.
+# Required because with PasswordAuthentication disabled, the classic "Failed password" log line is never produced.
+mode     = aggressive
