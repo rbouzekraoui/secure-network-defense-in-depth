@@ -1,0 +1,9 @@
+{
+  "Sid": "AllowCloudTrailToEncryptLogs",
+  "Effect": "Allow",
+  "Principal": {
+    "Service": "cloudtrail.amazonaws.com"
+  },
+  "Action": "kms:GenerateDataKey*",
+  "Resource": "*"
+}
