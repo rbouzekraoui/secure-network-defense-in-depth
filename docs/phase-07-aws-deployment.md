@@ -167,11 +167,14 @@ the **Core rule set** (common web exploits, including some of the OWASP Top 10 r
 **SQL database** (SQL injection patterns). Default action: Allow. No rate-based rule was
 configured.
 
-The infrastructure was destroyed before the web ACL was captured; its creation and
-association are evidenced from the CloudTrail event history, which remains queryable for
-90 days after teardown (event source `wafv2.amazonaws.com`):
+The infrastructure was destroyed before the web ACL configuration was captured. The
+CloudTrail event history (event source `wafv2.amazonaws.com`) records its removal on
+25 September 2026: two `DeleteWebACL` calls, then `ListResourcesForWebACL`,
+`DisassociateWebACL` and a last `DeleteWebACL`. The `DisassociateWebACL` call shows that the
+web ACL was still associated with a resource at teardown. The event list does not name that
+resource, and the creation and association events are not on the captured page.
 
-![CloudTrail — WAF web ACL creation and association with the ALB](../evidence/phase-07/14-cloudtrail-waf-events.png)
+![CloudTrail — WAF events at teardown, DisassociateWebACL then DeleteWebACL](../evidence/phase-07/14-cloudtrail-waf-events.png)
 
 ### 9. Audit — CloudTrail
 
@@ -236,7 +239,7 @@ project's Security Groups.
 | T-14a | EBS encrypted with the CMK | `aws ec2 describe-volumes` | 3 × `Encrypted = True`, CMK ARN | 3 × `True`, identical CMK ARN | Pass |
 | T-14b | Encryption visible in console | EC2 → Volumes | Encrypted, `sndid-ebs-key` | Encrypted, KMS key ID `c7b68b10-46…`, the ID of `sndid-ebs-key` (evidence 04) | Pass |
 | T-14c | Key and trail activity audited | CloudTrail event history | KMS and CloudTrail API calls recorded | `PutKeyPolicy`, `CreateTrail`, `StartLogging` recorded | Pass |
-| G4-WAF | WAF attached to the ALB | CloudTrail event history | `AssociateWebACL` on `sndid-alb` | See evidence 14 | Pass |
+| G4-WAF | WAF attached to the ALB | CloudTrail event history | Web ACL associated with `sndid-alb` | `DisassociateWebACL` recorded at teardown (evidence 14): an association existed. The resource is not named in the list and `AssociateWebACL` is not on the captured page | Pass (indirect evidence) |
 
 ### T-13 — Access exclusively through the ALB
 
